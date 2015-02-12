@@ -1,3 +1,7 @@
+/**
+ * (c) 2014 Kip Streithorst https://github.com/kstreith/js-debugging-samples 
+ * License: MIT
+ */
 (function () {
   window.SampleApp = Ember.Application.create();
   SampleApp.Router.map(function () {

@@ -1,3 +1,7 @@
+/**
+ * (c) 2014 Kip Streithorst https://github.com/kstreith/js-debugging-samples 
+ * License: MIT
+ */
 var currentNum = 1;
 var totalClicks = 0;
 var increase = function () {
