@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Developer Console Examples</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <link rel="stylesheet" href="default.min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.5em; font-weight: bold; padding-bottom: 15px; } 
+     .sampletitle { font-size: 1.2em; font-weight: bold; }
+     .sample { padding-bottom: 10px; }
+     .section { padding-bottom: 10px; }
+     select { width: 200px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+     #testSelect { width: 200px }
+     ::-ms-clear { display: none; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Developer Console Examples</div>
+        <div class="sample">
+          <div class="sampletitle">Learn JS</div>
+          <div class="sampledesc">Try typing the following into the console or use copy/paste.</div>
+          <pre><code class="javascript">1 + "1"
+0 == ""
+0 === ""
+obj = { firstname: 'John', lastname: 'Doe', age: 22 };
+JSON.stringify(obj, null, 2);
+</code></pre>
+        </div>
+        <div class="sample">
+          <div class="sampletitle">Test Restful API</div>
+          <div class="sampledesc">Try typing the following into the console or use copy/paste. Look at network tab of Developer tools for more details on the request and response.</div>
+          <pre><code class="javascript">$.getJSON("student/2.json");
+$.ajax({url: "student/2.json", type: "GET"});
+$.ajax({url: "student/2.json", type: "POST", data: {firstname: "Joe", lastname: "Doe" } });
+</code></pre>
+        </div>
+        <div class="sample">
+          <div class="sampletitle">Learn DOM and events</div>
+          <div class="sampledesc">Try typing the following into the console or use copy/paste.
+            <div style="width: 200px; height: 150px; background-color: blue">
+            </div>
+          </div>
+          <pre><code class="javascript">
+//Right-click on blue box and select "Inspect element"
+//Go back to developer console and enter $0
+//We can interact with elements selected on Elements tab in Console using $0, 1
+//Change the color of the box
+$0.style.backgroundColor = "green";
+//We can see how mouse move events work over the box and where we are scolled in the page
+$($0).on("mousemove", function (evt) { console.log('pageX ' + evt.pageX + ' pageY ' + evt.pageY); });
+//So, you can see pageX and pageY are based upon 0,0 being the top-left of the unscrolled page.
+//If you put the mouse over the box and then use the wheel on the mouse you'll notice the event doesn't trigger even though you are over a different part of the box, let's try and find that event
+$("body").on("scroll", function () { console.log("scroll body"); });
+$(window).on("scroll", function () { console.log("scroll window"); });
+</code></pre>
+        </div>
+        <div class="sample">
+          <div class="sampletitle">Try out a library</div>
+          <div class="sampledesc">Select2.js is already in the same folder as this HTML file, but hasn't be added to this page. Let's add it to the page and style this drop-down.
+<div>
+<select id="testselect" style="width: 200px">
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District Of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option>
+</select>				`
+</div>
+</div>
+          <pre><code class="javascript">
+s = document.createElement("script");
+s.src = "select2.js";
+document.body.appendChild(s);
+l = document.createElement("link");
+l.rel = "stylesheet";
+l.href = "select2.css";
+document.head.appendChild(l);
+//Use this
+$($0).select2();
+//Or
+$("#testSelect").select2();
+</code></pre>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>Console retains history of previously entered JS, use up and down arrow.</li>
+          <li>Console supports copy/paste and multiple lines. IE has single-line and multi-line mode, Chrome and Firefox you can use Shift+Enter or paste multiple line code into console from another editor.</li>
+          <li>Intellisense completion using 'tab'. <i>Works in IE11, Chrome and Firefox</i></li>
+          <li>Expand values of object and arrays directly in console. <i>Works in IE11, Chrome and Firefox</i></li>
+          <li>If you select a DOM node in the "Elements/Source" tab it will be available in the console as $0. The last thing selected in that tab will be $0, the second to last thing will be $1 and so on. Another way to select an element is to right-click in the browser and select the "Inspect Element" menu item.<i>Works in IE11, Chrome and Firefox</i></li>
+          <li>For pages with frames, IE11 and Chrome console allow you to select the frame.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script src="app.js"></script>
+</body>
+</html>

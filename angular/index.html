@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Angular Debugging Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .columnPixel { height: 20px; width: 1px; display: inline-block; }
+     .currentNum { width: 30px; display: inline-block; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+     #stripe { height: 20px; border-style: solid; border-width: 1px; border-color:black; display: inline-block; font-size: 0; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Angular Debugging Sample</div>
+        <div class="app" ng-app="SampleApp" ng-controller="SampleController">
+          <div class="section">
+            <label>Current Value:</label> <span class="currentNum">{{currentNum}}</span>
+          <div id="stripe">
+            <div class="columnPixel" ng-repeat="val in values track by val.id" ng-style="{'background-color':val.color}"></div>
+          </div>
+          </div>
+          <button ng-click="increase()" ng-disabled="currentNum === 100" type="button" class="pure-button">Increase</button>
+          <button ng-click="decrease()" ng-disabled="currentNum === 1" type="button" class="pure-button">Decrease</button>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>Let's get access to underlying Angular data, called scope. Right click on number or buttons and select "Inspect Element".</li>
+          <li>Type following into console to get access to scope <i>s = angular.element($0).scope()</i></li>
+          <li>Now, get currentNum in console using <i>s.currentNum</i></li>
+          <li>Click buttons and then use up arrow to re-execute <i>s.currentNum</i> to see that is in fact the current value</li>
+          <li>Now, update the currentNum using <i>s.currentNum = 100;</i>. Check the value using <i>s.currentNum</i>. The value has updated but the UI hasn't. Angular waits to update the UI until you tell it you are done making changes. Let's do that using <i>s.$apply()</i>. Notice that the UI updated and the Increase button disabled. But there is a bug, the candy stripe wasn't updated.</li>
+          <li>Before we fix that, let's do some scope debugging to see if the page title is part of the Angular scope.</li>
+          <li>Right-click to inspect the page title element and then type <i>angular.element($0).scope()</i>. Notice that undefined is returned, meaning the page title is outside of Angular and therefore isn't controlled by Angular.</li>
+          <li>Back to the candy stripe bug, if you look at the source code, app.js, on line 20, 24 you'll see we call syncWithNumber after updating currentNum. This updates the data for the candy stripe. We didn't call that from the console, so try that now, <i>s.syncWithNumber(); s.$apply(); </i></li>
+          <li>Let's see if we can clean that code up by subscribing to currentNum and when it changes automatically calling syncWithNumber. So, let's try subscribing to currentNum, <i>s.$watch('currentNum', function () { console.log('currentNum changed to ' + s.currentNum); });</i>. Confirm the subscription works by clicking on the buttons and watching the console.</li>
+          <li>Now, we can add a subscription that calls syncWithNumber, <i>s.$watch('currentNum', s.syncWithNumber);</i></li>
+          <li>Let's test updating currentNum and see if UI and candy stripe update, <i>s.currentNum = 10; s.$apply();</i></li>
+          <li>So, now we could take our subscription that we tested and update our source code in app.js</li>
+          <li>But, let's try accessing Angular services. In this app we have a ColorService that when given a number will return a color. This is useful for unit testing and for allowing users to select between services to change the candy stripe. Let's see if we can interact with this service from the console.</li>
+          <li>To access the Color Service, we need access to Angular Dependency Injection system. So, right-click and inspect the current number or buttons and then type the following in the console, <i>cs = angular.element($0).injector().get('ColorService');</i></li>
+          <li>Now, let's test the Color Service using <i>cs.determine(5)</i> and <i>cs.determine(10);</i></li>
+          <li>And that's the end of debugging Angular using the Console</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="angular.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

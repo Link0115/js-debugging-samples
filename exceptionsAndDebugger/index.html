@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exceptions Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Exceptions Sample</div>
+        <button id="throwBtn" type="button" class="pure-button">Throw an exception</button>
+        <button id="doNotThrowBtn" type="button" class="pure-button"><i>Don't</i> throw an exception</button>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li><i>Throw an exception</i> button has a typo in a function call.</li>
+          <li><i>Don't throw an exception</i> button also has a typo in a function call, but it's wrapped in a try/catch. So, in order to find this exception you will have to enable catching uncaught exceptions in the debugger of your browser. This works in IE8-10 but you will most likely end up on the wrong frame in the call stack. This feature works best in IE11.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

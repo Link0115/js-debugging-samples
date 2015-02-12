@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ember Debugging Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .columnPixel { height: 20px; width: 1px; display: inline-block; }
+     .currentNum { width: 30px; display: inline-block; }
+     #stripe { height: 20px; border-style: solid; border-width: 1px; border-color:black; display: inline-block; font-size: 0; }
+     .green { background-color: green; }
+     .white { background-color: white; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+  </style>
+</head>
+<body>
+  <script type="text/x-handlebars" data-template-name="base">
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Ember Debugging Sample</div>
+        <div class="app">
+          <div class="section">
+            <label>Current Value:</label> <span class="currentNum">{{currentNum}}</span>
+            <div id="stripe">
+              {{#each color in values}}
+              <div {{bind-attr class=":columnPixel color"}}></div>
+              {{/each}}
+            </div>
+          </div>
+          <button {{action "increase"}} {{bind-attr disabled=disableIncrease}} type="button" class="pure-button">Increase</button>
+          <button {{action "decrease"}} {{bind-attr disabled=disableDecrease}} type="button" class="pure-button">Decrease</button>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>Let's get access to underlying Ember data, called the controller. Before we can access the controller, we need to find the associated Ember view. Right click on number or buttons and select "Inspect Element".</li>
+          <li>Type following into console to determine the id of the associated Ember View <i>viewId = $($0).parents("[class='ember-view']").attr("id");</i></li>
+          <li>Now, we can look up the Ember View object using the viewId, <i>v = Ember.View.views[viewId]</i>. Now that we have the View, we can access the controller, <i>c = v.controller</i>. Or, we could combine all of the above into a single line, <i>c = Ember.View.views[$($0).parents("[class='ember-view']").attr("id")].controller</i>.</li>
+          <li>Now, get currentNum in console using <i>c.get('currentNum')</i>.</li>
+          <li>Click buttons and then use up arrow to re-execute <i>c.get('currentNum')</i> to see that is in fact the current value</li>
+          <li>Now, update the currentNum using <i>c.set('currentNum', 100);</i>. Check the value using <i>c.get('currentNum');</i>. The value has updated and the UI has updated, the Increase button has been disabled. But there is a bug, the candy stripe wasn't updated.</li>
+          <li>Before we fix that, let's do some debugging to see if the page title is part of the Ember view.</li>
+          <li>Right-click to inspect the page title element and then type <i>Ember.View.views[$($0).parents("[class='ember-view']").attr("id")].controller</i>. Notice that controller is returned, meaning the page title is controlled by Ember.</li>
+          <li>Back to the candy stripe bug, if you look at the source code, app.js, on line 39, 43 you'll see we call syncWithNumber after updating currentNum. This updates the data for the candy stripe. We didn't call that from the console, so try that now, <i>c.syncWithNumber();</i></li>
+          <li>Let's see if we can clean that code up by subscribing to currentNum and when it changes automatically calling syncWithNumber. So, let's try subscribing to currentNum, <i>c.addObserver('currentNum', null, function () { console.log('currentNum changed to ' + c.get('currentNum')); });</i>. Confirm the subscription works by clicking on the buttons and watching the console.</li>
+          <li>Now, we cann add a subscription that calls syncWithNumber, <i>c.addObserver('currentNum', c, c.syncWithNumber);</i></li>
+          <li>Let's test updating currentNum and see if UI and candy stripe update, <i>c.set('currentNum', 10);</i></li>
+          <li>So, now we could take our subscription that we tested and update our source code in app.js</li>
+          <li>But, let's try accessing a service. In this app we have a ColorService that when given a number will return a color. This is useful for unit testing and for allowing users to select between services to change the candy stripe. Let's see if we can interact with this service from the console.</li>
+          <li>For this app, the Color Service is simply a JS global variable, SampleApp.ColorService.</i></li>
+          <li>Now, let's test the Color Service using <i>SampleApp.ColorService.determine(5)</i> and <i>SampleApp.ColorService.determine(10);</i></li>
+          <li>And that's the end of debugging Ember using the Console</li>
+        </ul>
+      </div>      
+    </div>
+  </div>
+  </script>
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="handlebars-v1.3.0.js"></script>
+  <script src="ember.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

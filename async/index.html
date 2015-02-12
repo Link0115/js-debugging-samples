@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Async Callstack and Property Debugging Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <link rel="stylesheet" href="default.min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+     #msgContainer { padding-top: 10px; }
+     .msg { padding: 10px; width: 150px; background-color: #0078e7; color: white; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Async Callstack and Property Debugging Sample</div>
+        <button id="hello" type="button" class="pure-button">Say Hello</button>
+        <button id="goodbye" type="button" class="pure-button">Say Goodbye</button>
+        <button id="resetCount" type="button" class="pure-button">Reset Counter</button>
+        <div id="msgContainer">
+          <div class="msg">Test Message</msg>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>If you click "Say Hello" or "Say Goodbye" you will see a message added below "Test Message". A timeout is then set and after 3 seconds, the app is supposed to clear that particular message. So, if you click "Say Hello" it will show a "Hello" message and then 3 seconds later only "Hello" messages should disappear. If you try clicking those buttons you will notice there is a bug, after 3 seconds it clears all messages, not just ones of the particular type.</li>
+          <li>So, let's debug that. You should open messages.js in the Debugger and put a breakpoint inside the App.Messages.ClearType method on line 18. Now, you can click on the "Say Hello" or "Say Goodbye" button. After 3 seconds, your breakpoint should be hit.</li>
+          <li>If you look at the callstack in any browser other than IE 11, you will see two parts to the callstack. You will see the ClearType function in messages.js and then you will see a line in jquery.js. Neither of these tells you what code asked to clear messages of a certain type. You can see in the debugger that the type is 3 and that is the bug. For "Say Hello" the type should be 1 and for "Say Goodbye" the type should be 2. But you can't find the code that calls this function. That is because this function call was queued up via setTimeout which is an async call. And the browser won't show you where setTimeout was called. If you could find that you could find the code that provides that type of 3 and you could fix that code.</li>
+          <li>In IE11 and Chrome, the debuggers have a feature that will let you find this call to setTimeout. For other browsers you would to resort to searching your source code for calls to setTimeout but even that might not be sufficient since there are other async methods, such as setInterval, ajax requests, promises, etc.</li>
+          <li>If you simply run this example in IE11 you will have already seen the callstack all way back to the setTimeout call in App.Messages.ClearLater on line 5 and you would see what function called ClearLater, it might have been sayHello or sayGoodbye depending on what button you clicked on.</li>
+          <li>In Chrome, you need to enable the "Async" checkbox above the call stack in the debugger and then you need to click the "Say Hello" or "Say Goodbye" button again and the next time you hit the breakpoint after enabling the "Async" checkbox you will also see the callstack that includes the call to setTimeout on line 5 of messages.js and what function called that, either sayHello or sayGoodbye.</li>
+          <li>Now, let's talk about debugging property access and modification</li>
+          <li>If you open the Developer console, you can type App.Counter to see the current value. You can use the up arrow to re-run that line a couple of times. If you do you will see that the value is changing pretty often. Now, the question is how do we find the code that is changing that value?</li>
+          <li>If App.Counter was a function we could find the source for that and put a breakpoint in it. But this is a property of App, so how can we debug it? If your browser supports ES5, which is IE9+, then you can use a new feature of javascript called getters/setters. This allows you to use Object.defineProperty to create a property. The feature of Object.defineProperty is that you can provide a function for setting the property and/or provide a function to get the value of the property. This feature is very similiar to properties in C#, you still access as them as properties (e.g. X.name = 'test'; X.name), but custom functions are run underneath the hood. So, we can write a custom getter and setter function and in the custom setter function use the debugger; statement. So, when code anywhere updates the property the browser will run our custom setter function and will then hit our debugger; statement which will cause the browser to stop the debugger on that line. We can then look at the call stack to see what code updated the property.</li>
+          <li>So, I've written a helper function to create this property, see the code below:
+<pre><code class="javascript">function debugProp(obj, prop) {
+    var value = obj[prop];
+    var stopNext = true;
+    Object.defineProperty(obj, prop, {
+      get: function () {
+        return value;
+      },
+      set: function (val) {
+        value = val;
+        if (stopNext) {
+          stopNext = false;
+          debugger;
+        }
+      }
+    });
+  };</code></pre>
+          </li>
+          <li>This will only stop the debugger the first time the property is updated. All other property updates after that will just work without stopping the debugger. So, copy and paste that code in the console in order to create a global function caled debugProp.</li>
+          <li>Now, let's use this function and type debugProp(App, 'Counter') into the console. You will then see the debugger break and you will find the offending line of code. It was in utils.js as part of setInterval which means every 500 milliseconds it was updating App.Counter.</li>
+          <li>If we wanted we could make debugProp slightly more useful and stop only if the property was set to a certain value, so let's do that using the below function:
+<pre><code class="javascript">function debugPropWithValue(obj, prop, valueToStop) {
+    var value = obj[prop];
+    Object.defineProperty(obj, prop, {
+      get: function () {
+        return value;
+      },
+      set: function (val) {
+        value = val;
+        if (val === valueToStop) {
+          debugger;
+        }
+      }
+    });
+  };
+</code></pre>
+</li>
+          <li>So now let's type debugPropWithValue(App, 'Counter', 10) into the console. You will notice that the debugger is never stopped because the value of App.Counter never becomes 10. But we can update the value of App.Counter in the console using App.Counter = 0. If we do this, 5 seconds from now, the debugger for the browser will stop because the counter goes up twice per second.</li> 
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script src="app.js"></script>
+  <script src="messages.js"></script>
+  <script src="utils.js"></script>
+</body>
+</html>

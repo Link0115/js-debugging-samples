@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Knockout Debugging Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .columnPixel { height: 20px; width: 1px; display: inline-block; }
+     .currentNum { width: 30px; display: inline-block; }
+     #stripe { height: 20px; border-style: solid; border-width: 1px; border-color:black; display: inline-block; font-size: 0; }
+     .white { background-color: white; }
+     .green { background-color: green; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Knockout Debugging Sample</div>
+        <div class="app" id="SampleViewModel">
+          <div class="section">
+            <label>Current Value:</label> <span class="currentNum" data-bind="text: currentNum"></span>
+            <div id="stripe" data-bind="foreach: values">
+              <div class="columnPixel" data-bind="css: color"></div>
+            </div>
+          </div>
+          <button data-bind="click: increase, disable: disableIncrease" type="button" class="pure-button">Increase</button>
+          <button data-bind="click: decrease, disable: disableDecrease" type="button" class="pure-button">Decrease</button>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>Let's get access to underlying Knockout data, called view model. Right click on number or buttons and select "Inspect Element".</li>
+          <li>Type following into console to get access to data <i>vm = ko.dataFor($0)</i></li>
+          <li>Now, get currentNum in console using <i>vm.currentNum()</i>. The currentNum is an ko.observable, which means you have to call it with no arguments to get the current value. If you forget to add the parens, you will simply see the observable function definition not the current value.</li>
+          <li>Click buttons and then use up arrow to re-execute <i>vm.currentNum()</i> to see that is in fact the current value</li>
+          <li>Now, update the currentNum using <i>vm.currentNum(100);</i>. Check the value using <i>vm.currentNum()</i>. The value has updated and the UI has updated, the Increase button has been disabled. But there is a bug, the candy stripe wasn't updated.</li>
+          <li>Before we fix that, let's do some debugging to see if the page title is part of the Knockout view model.</li>
+          <li>Right-click to inspect the page title element and then type <i>ko.dataFor($0)</i>. Notice that undefined is returned, meaning the page title is outside of Knockout and therefore isn't controlled by Knockout.</li>
+          <li>Back to the candy stripe bug, if you look at the source code, app.js, on line 28, 33 you'll see we call syncWithNumber after updating currentNum. This updates the data for the candy stripe. We didn't call that from the console, so try that now, <i>vm.syncWithNumber();</i></li>
+          <li>Let's see if we can clean that code up by subscribing to currentNum and when it changes automatically calling syncWithNumber. So, let's try subscribing to currentNum, <i>vm.currentNum.subscribe(function () { console.log('currentNum changed to ' + vm.currentNum()); });</i>. Confirm the subscription works by clicking on the buttons and watching the console.</li>
+          <li>Now, we can add a subscription that calls syncWithNumber, <i>vm.currentNum.subscribe(vm.syncWithNumber, vm);</i></li>
+          <li>Let's test updating currentNum and see if UI and candy stripe update, <i>vm.currentNum(10);</i></li>
+          <li>So, now we could take our subscription that we tested and update our source code in app.js</li>
+          <li>But, let's try accessing a service. In this app we have a ColorService that when given a number will return a color. This is useful for unit testing and for allowing users to select between services to change the candy stripe. Let's see if we can interact with this service from the console.</li>
+          <li>Knockout is only concerned about the view layer, it provides no guidance or assistance for other parts of an application like Services. For this app, the Color Service is simply a JS global variable, app.ColorService.</i></li>
+          <li>Now, let's test the Color Service using <i>app.ColorService.determine(5)</i> and <i>app.ColorService.determine(10);</i></li>
+          <li>And that's the end of debugging Knockout using the Console</li>
+        </ul>
+      </div>      
+    </div>
+  </div>
+  <script src="knockout-3.2.0.debug.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

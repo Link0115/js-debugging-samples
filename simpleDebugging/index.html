@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS Debugger Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+     #stripe { width: 20px; height: 20px; border-style: solid; border-color: black; border-width: 1px; display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">JS Debugger Sample</div>
+        <div class="section">
+          <label>Current Value:</label> <span id="currentNumber">1</span>
+          <div id="stripe"></div>
+        </div>
+        <button id="increase" type="button" class="pure-button">Increase</button>
+        <button id="decrease" type="button" class="pure-button">Decrease</button>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>Right-click on breakpoint symbol for the line to set the conditional expression. Try it by setting breakpoint on line 19 and set conditional expression of <i>color == 'green'</i></li>
+          <li>For Logpoint/Tracepoint, use console.log as the conditional expression on a breakpoint. console.log always returns falsey, so breakpoint is never triggered, but console.log is always executed. Try it by setting breakpoint on line 19 and set conditional expression of <i>console.log('currentNum ' + currentNum + ' color ' + color)</i> </li>
+          <li>For IE8 and call stack if you want function name to be listed you'll want to use named function expressions (see updateUi function) or function declarations (see decrease function).</li>
+          <li>Mouse over variable works in IE9+, Chrome and Firefox</li>
+          <li>Mouse over expression works in IE9+ and Chrome</li>
+          <li>Open JS files quicker in IE11, Chrome and Firefox using Ctrl+O</li>
+          <li>debugger; statement only drops into debugger when statement is executed.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.1.min.js"></script>
+  <!-- <script src="consolepolyfill.js"></script> -->
+  <script src="app.js"></script>
+</body>
+</html>
