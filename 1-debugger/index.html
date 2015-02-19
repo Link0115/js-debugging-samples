@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!--
+  (c) 2014 Kip Streithorst https://github.com/kstreith/js-debugging-samples 
+  License: MIT -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS Debugger Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+     #stripe { width: 20px; height: 20px; border-style: solid; border-color: black; border-width: 1px; display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">NFL Teams</div>
+        <form class="pure-form pure-form-aligned">
+            <div class="pure-control-group">
+               <label for="wins">Total Wins</label>
+               <input id="wins" type="text" />
+            </div>
+            <div class="pure-controls">
+               <label for="homeGreater" class="pure-radio">
+                 <input id="homeGreater" type="radio" name="homeMatchType" value="greater" checked />
+                 Total Wins Greater Than
+               </label>
+               <label for="homeLess" class="pure-radio">
+                 <input id="homeLess" type="radio" name="homeMatchType" value="less" />
+                 Total Wins Less Than 
+               </label>
+            </div>
+            <div class="pure-controls">
+               <button id="filter" type="button" class="pure-button pure-button-primary">Filter</button>
+            </div>
+        </form>
+      </div>
+      <div class="content">
+        <div class="title">Results</div>
+        <ul id="results">
+          <li>No Results</li>
+        </ul>
+        <button id="sortOrder" type="button" class="pure-button">Sort By Wins Descending</button>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>AJAX Sample</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="json2.js"></script>
+  <script src="jquery.mockjax.js"></script>
+  <script src="mockServer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
