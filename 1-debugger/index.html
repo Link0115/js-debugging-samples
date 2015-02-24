@@ -22,7 +22,7 @@
     <div class="pure-u-1">
       <div class="content">
         <div class="title">NFL Teams</div>
-        <form class="pure-form pure-form-aligned">
+        <div class="pure-form pure-form-aligned">
             <div class="pure-control-group">
                <label for="wins">Total Wins</label>
                <input id="wins" type="text" />
@@ -40,19 +40,21 @@
             <div class="pure-controls">
                <button id="filter" type="button" class="pure-button pure-button-primary">Filter</button>
             </div>
-        </form>
+        </div>
       </div>
       <div class="content">
         <div class="title">Results</div>
         <ul id="results">
           <li>No Results</li>
         </ul>
-        <button id="sortOrder" type="button" class="pure-button">Sort By Wins Descending</button>
+        <button id="sortOrder" type="button" class="pure-button">Sort By Wins Ascending</button>
       </div>
       <div class="notes">
         <div class="title">Notes</div>
         <ul>
-          <li>AJAX Sample</li>
+          <li>There are two bugs in this application</li>
+          <li>The first bug is filtering using Total Wins Less Than will always show No Results</li>
+          <li>The second bug is sorting results by wins will always throw a javascript exception and never successfully sorts.</li>
         </ul>
       </div>
     </div>
@@ -61,6 +63,7 @@
   <script src="json2.js"></script>
   <script src="jquery.mockjax.js"></script>
   <script src="mockServer.js"></script>
+  <script src="ui.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
