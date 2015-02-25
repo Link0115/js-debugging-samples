@@ -10,44 +10,57 @@
   <link rel="stylesheet" href="pure-min.css">
   <style>
      .content { padding: 10px; }
-     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .title { font-size: 1.0em; font-weight: bold; padding-bottom: 15px; padding-top: 15px; } 
      .section { padding-bottom: 10px; }
      .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
      .notes .title { padding-bottom: 0px; }
-     #stripe { width: 20px; height: 20px; border-style: solid; border-color: black; border-width: 1px; display: inline-block; }
+     #teamCol { min-width: 200px; max-width: 400px; }
+     #winCol { min-width: 50px; max-width: 100px; }
   </style>
 </head>
 <body>
   <div class="pure-g">
     <div class="pure-u-1">
       <div class="content">
-        <div class="title">NFL Teams</div>
-        <div class="pure-form pure-form-aligned">
-            <div class="pure-control-group">
-               <label for="wins">Total Wins</label>
-               <input id="wins" type="text" />
-            </div>
+        <div class="title">NFL Standing Summary</div>
+        <div class="pure-form">
             <div class="pure-controls">
-               <label for="homeGreater" class="pure-radio">
-                 <input id="homeGreater" type="radio" name="homeMatchType" value="greater" checked />
-                 Total Wins Greater Than
+               <label for="afc" class="pure-radio">
+                 <input id="afc" type="radio" name="selectedConf" value="afc" checked />
+                 AFC 
                </label>
-               <label for="homeLess" class="pure-radio">
-                 <input id="homeLess" type="radio" name="homeMatchType" value="less" />
-                 Total Wins Less Than 
+               <label for="nfc" class="pure-radio">
+                 <input id="nfc" type="radio" name="selectedConf" value="nfc" />
+                 NFC 
                </label>
-            </div>
-            <div class="pure-controls">
-               <button id="filter" type="button" class="pure-button pure-button-primary">Filter</button>
             </div>
         </div>
       </div>
       <div class="content">
-        <div class="title">Results</div>
-        <ul id="results">
-          <li>No Results</li>
-        </ul>
-        <button id="sortOrder" type="button" class="pure-button">Sort By Wins Ascending</button>
+        <table id="teams" class="pure-table pure-table-bordered">
+          <thead>
+            <tr>
+              <th id="teamCol">Team</th><th id="winCol">Total Wins</th>
+            </tr>
+          </thead>
+          <tbody id="teamRows">
+            <tr>
+              <td colspan="2">No Teams, select AFC or NFC conference above</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="title">Cincinnati Bengals Details</div>
+        <table id="teamSummary" class="pure-table pure-table-bordered">
+          <thead>
+            <tr>
+              <th id="teamCol">Total Wins</th><th id="winCol">Home Wins</th><th>Road Wins</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>10</td><td>6</td><td>4</td>
+          </tr>
+        </table>
       </div>
       <div class="notes">
         <div class="title">Notes</div>

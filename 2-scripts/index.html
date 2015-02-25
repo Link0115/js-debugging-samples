@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!--
+  (c) 2014 Kip Streithorst https://github.com/kstreith/js-debugging-samples 
+  License: MIT -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS Debugger Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <link rel="stylesheet" href="select2.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+     #stripe { width: 20px; height: 20px; border-style: solid; border-color: black; border-width: 1px; display: inline-block; }
+  </style>
+  <script src="jquery-1.11.1.min.js"></script>
+</head>
+<body>
+  <script src="app.js"></script>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Guess Superbowl Winner</div>
+        <div class="pure-form pure-form-aligned">
+            <div class="pure-control-group">
+               <label for="wins">Team</label>
+               <select id="teamSelection">
+                 <option>Arizona Cardinals</option>
+                 <option>Atlanta Falcons</option>
+                 <option>Baltimore Ravens</option>
+                 <option>Buffalo Bills</option>
+                 <option>Carolina Panthers</option>
+                 <option>Chicago Bears</option>
+                 <option>Cincinnati Bengals</option>
+                 <option>Cleveland Browns</option>
+                 <option>Dallas Cowboys</option>
+                 <option>Denver Broncos</option>
+                 <option>Detroit Lions</option>
+                 <option>Green Bay Packers</option>
+                 <option>Houston Texans</option>
+                 <option>Indianapolis Colts</option>
+                 <option>Jacksonville Jaguars</option>
+                 <option>Kansas City Chiefs</option>
+                 <option>Miami Dolphins</option>
+                 <option>Minnesota Vikings</option>
+                 <option>New England Patriots</option>
+                 <option>New Orleans Saints</option>
+                 <option>New York Giants</option>
+                 <option>New York Jets</option>
+                 <option>Oakland Raiders</option>
+                 <option>Philadelphia Eagles</option>
+                 <option>Pittsburgh Steelers</option>
+                 <option>San Diego Chargers</option>
+                 <option>San Francisco 49ers</option>
+                 <option>Seattle Seahawks</option>
+                 <option>St. Louis Rams</option>
+                 <option>Tampa Bay Buccaneers</option>
+                 <option>Tennessee Titans</option>
+                 <option>Washington Redskins</option>
+               </select>
+            </div>
+            <div class="pure-controls">
+               <button id="submit" type="button" class="pure-button pure-button-primary">Submit</button>
+            </div>
+        </div>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>There is one bug in this application. The selection for a Superbowl winner should be a Select2 widget and should not be a default select dropdown provided by the browser. The Select2 widget would provide autocomplete like functionality to the user.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="select2.js"></script>
+</body>
+</html>
