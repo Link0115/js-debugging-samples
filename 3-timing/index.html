@@ -50,24 +50,23 @@
           </tbody>
         </table>
 
-        <div class="title">Cincinnati Bengals Details</div>
+        <div class="title" id="teamDetail">Team Details</div>
         <table id="teamSummary" class="pure-table pure-table-bordered">
           <thead>
             <tr>
               <th id="teamCol">Total Wins</th><th id="winCol">Home Wins</th><th>Road Wins</th>
             </tr>
           </thead>
-          <tr>
-            <td>10</td><td>6</td><td>4</td>
-          </tr>
+          <tbody>
+          </tbody>
         </table>
       </div>
       <div class="notes">
         <div class="title">Notes</div>
         <ul>
           <li>There are two bugs in this application</li>
-          <li>The first bug is filtering using Total Wins Less Than will always show No Results. This bug is a silent error, you won't find anything in the developer console. The bug is in the app.SearchModel.prototype.filter function in app.js.</li>
-          <li>The second bug is sorting results by wins and will always throw a javascript exception and will never successfully sort. This bug will throw an error from line 54 of app.js.</li>
+          <li>The first bug is if you click quickly back and forth between AFC and NFC and then wait about 5 seconds you will occassionally see the data for the wrong conference displayed (e.g. NFC data when AFC is selected).</li>
+          <li>The second bug is when you initially load the page you can click on a team and get details at the bottom of the page about that teams record. However, after you click to another conference, click on a team no longer works at all and never updates the details at the bottom of the page.</li>
         </ul>
       </div>
     </div>

@@ -8,16 +8,11 @@ app.SummaryModel = function (ui) {
   self.ui = ui;
   self.teams = [];
   self.onConference("afc").done(function () {
-    //setTimeout(function () {
       self.ui.bindTeamClick();
-    //}, 100);
   });
-  self.ui.onTeamClick = function () { alert('team clicked'); }
+  self.ui.onTeamClick = function (teamIndex) { self.onTeamClick(teamIndex); }
   self.ui.onConference = function (conf) { self.onConference(conf) };
   return self;
-};
-app.SummaryModel.prototype.load = function (afc) {
-  var self = this;
 };
 app.SummaryModel.prototype.onConference = function (conf) {
   var self = this;
@@ -27,6 +22,11 @@ app.SummaryModel.prototype.onConference = function (conf) {
     self.teams.sort(function (a, b) { return b.wins - a.wins; });
     self.ui.drawResults(self.teams);
   });
+}
+app.SummaryModel.prototype.onTeamClick = function (teamIndex) {
+  var self = this;
+  var team = self.teams[teamIndex];
+  self.ui.drawTeamDetail(team);
 }
 app.ui.bind();
 app.Summary = new app.SummaryModel(app.ui);
