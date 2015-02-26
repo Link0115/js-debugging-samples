@@ -26,6 +26,13 @@ app.ui.drawTeamDetail = function (teamObj) {
   $("<td>").text(teamObj.roadWin).appendTo($detailRow);
   $detailRow.appendTo($tbody);
 }
+app.ui.confSelectionEnable = function (enable) {
+  if (enable) {
+    $("[name='selectedConf']").removeAttr("disabled");    
+  } else {
+    $("[name='selectedConf']").attr("disabled", "disabled");
+  }
+}
 app.ui.bindTeamClick = function () {
   $("#teamRows tr").on("click", function () {
     var onTeamClick = app.ui.onTeamClick;

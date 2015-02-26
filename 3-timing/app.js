@@ -6,9 +6,11 @@ var app = app || {};
 app.SummaryModel = function (ui) {
   var self = this;
   self.ui = ui;
+  self.ui.confSelectionEnable(false);
   self.teams = [];
   self.onConference("afc").done(function () {
-      self.ui.bindTeamClick();
+    self.ui.bindTeamClick();
+    self.ui.confSelectionEnable(true);
   });
   self.ui.onTeamClick = function (teamIndex) { self.onTeamClick(teamIndex); }
   self.ui.onConference = function (conf) { self.onConference(conf) };
