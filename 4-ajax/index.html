@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!--
+  (c) 2014 Kip Streithorst https://github.com/kstreith/js-debugging-samples 
+  License: MIT -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS Debugger Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+     .spinner { background-image: url('ajax-loader.gif'); width: 120px; height: 15px; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">NFL Teams</div>
+        <ul id="results" data-show-after-load="true" style="display:none">
+        </ul>
+        <div class="spinner" data-show-after-load="false">
+        </div>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>There is one bug in this application</li>
+          <li>The spinner never goes away, it should go away and the NFL standings should be shown as soon as they are succesfully loaded.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="json2.js"></script>
+  <script src="jquery.mockjax.js"></script>
+  <script src="mockServer.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
