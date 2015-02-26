@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!--
+  (c) 2014 Kip Streithorst https://github.com/kstreith/js-debugging-samples 
+  License: MIT -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS Debugger Sample</title>
+  <link rel="stylesheet" href="pure-min.css">
+  <link rel="stylesheet" href="toastr.css">
+  <style>
+     .content { padding: 10px; }
+     .title { font-size: 1.2em; font-weight: bold; padding-bottom: 15px; } 
+     .section { padding-bottom: 10px; }
+     .notes { padding: 10px; margin-top: 100px; margin-left: 10px; margin-right: 10px; background-color: #eee; }
+     .notes .title { padding-bottom: 0px; }
+  </style>
+</head>
+<body>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="content">
+        <div class="title">Add NFL Team</div>
+        <form class="pure-form pure-form-aligned">
+            <div class="pure-control-group">
+               <label for="name">Name</label>
+               <input id="name" type="text" />
+            </div>
+            <div class="pure-control-group">
+               <label for="city">City</label>
+               <input id="city" type="text" />
+            </div>
+            <div class="pure-control-group">
+               <label for="owner">Owner</label>
+               <input id="owner" type="text" />
+            </div>
+            <div class="pure-controls">
+               <button id="add" type="button" class="pure-button pure-button-primary">Add</button>
+               <button id="clear" class="pure-button pure-button-primary">Clear</button>
+            </div>
+        </form>
+      </div>
+      <div class="notes">
+        <div class="title">Notes</div>
+        <ul>
+          <li>There are two bugs in this application</li>
+          <li>The "Clear" button should empty the name and owner field and set the city to "Los Angeles" You will notice it currently clears out all fields and flashes depending on the browser. <i>This isn't necessarily a bug in the javascript.</i></li>
+          <li>After 10 minutes, the authentication for this application will timeout and if the user saves, they should be shown a yellow toastr message. Currently, they are shown an incorrectly colored toastr message.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="json2.js"></script>
+  <script src="mockServer.js"></script>
+  <script src="toastr.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
